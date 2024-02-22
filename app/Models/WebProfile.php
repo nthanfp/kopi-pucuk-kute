@@ -13,5 +13,13 @@ class WebProfile extends Model
         'description',
         'logo',
         'favicon',
+        'email',
+        'phone',
+        'address',
+        'province',
+        'city',
+        'district',
+        'village',
+        'zip_code',
     ];
 }

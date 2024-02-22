@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    {{-- Font --}}
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
+
     <!-- Load Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
@@ -13,7 +16,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css', 'resources/css/simplex-bootstrap.min.css'])
 </head>
 
-<body style="background-color: #f8f7f7">
+<body style="background-color: #f8f7f7; font-family: 'Inter'">
     <nav class="navbar navbar-expand-lg navbar-dark bg-warning" style="border-style: none;">
         <div class="container-fluid container">
             <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
@@ -25,7 +28,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page"
-                            href="{{ route('home') }}"><i class="fas fa-home"></i> Home</a>
+                            href="{{ route('index') }}"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('product') ? 'active' : '' }}"
@@ -48,31 +51,26 @@
                             </a>
                         </li>
                     @else
-                        @if (Auth::user()->role === 'admin')
-                            {{-- Tampilkan menu dropdown untuk admin --}}
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Admin <i class="fas fa-cogs"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                                    <a class="dropdown-item" href="#">Dashboard Admin</a>
-                                    <a class="dropdown-item" href="{{ route('admin.products.index') }}">Kelola Produk</a>
-                                    <a class="dropdown-item" href="#">Kelola Pengguna</a>
-                                    <a class="dropdown-item" href="{{ route('admin.web-profile') }}">Kelola Profil Perusahaan</a>
-                                    {{-- Tambahkan item dropdown lainnya sesuai kebutuhan --}}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Pengaturan</a>
-                                </div>
-                            </li>
-                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('cart/view') ? 'active' : '' }}"
+                                href="{{ route('cart.view') }}">
+                                <i class="fas fa-shopping-cart"></i> Keranjang <span
+                                    class="badge bg-primary">{{ count(session('cart', [])) }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('account/transaction') ? 'active' : '' }}"
+                                href="{{ route('account.profile.transaction') }}">
+                                <i class="fas fa-shopping-bag"></i> Transaksi 
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-user"></i> {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Profil</a>
+                                <a class="dropdown-item" href="{{ route('account.profile.show') }}">Profil</a>
                                 <a class="dropdown-item" href="#">Ganti Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
@@ -84,6 +82,27 @@
                                 </form>
                             </div>
                         </li>
+                        @if (Auth::user()->role === 'admin')
+                            {{-- Tampilkan menu dropdown untuk admin --}}
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin Menu <i class="fas fa-cogs"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                                    <a class="dropdown-item" href="{{ route('admin.transactions.index') }}">Kelola Transaksi</a>
+                                    <a class="dropdown-item" href="{{ route('admin.product.index') }}">Kelola Produk</a>
+                                    <a class="dropdown-item" href="{{ route('admin.user.index') }}">Kelola Pengguna</a>
+                                    <a class="dropdown-item" href="{{ route('admin.payment.index') }}">Kelola Metode
+                                        Pembayaran</a>
+                                    <a class="dropdown-item" href="{{ route('admin.web-profile') }}">Kelola Profil
+                                        Perusahaan</a>
+                                    {{-- Tambahkan item dropdown lainnya sesuai kebutuhan --}}
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Pengaturan</a>
+                                </div>
+                            </li>
+                        @endif
                     @endguest
                 </ul>
 
@@ -92,7 +111,7 @@
     </nav>
 
 
-    <div class="container mt-4">
+    <div class="container mt-4 mb-4">
         @yield('content')
     </div>
 </body>

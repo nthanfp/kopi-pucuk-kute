@@ -17,8 +17,18 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('logo')->nullable();
             $table->string('favicon')->nullable();
+            $table->string('email')->nullable(); // Alamat email
+            $table->string('phone')->nullable(); // Nomor telepon
+            $table->string('address')->nullable(); // Alamat
+            $table->string('province')->nullable(); // Provinsi
+            $table->string('city')->nullable(); // Kota
+            $table->string('district')->nullable(); // Kecamatan
+            $table->string('village')->nullable(); // Kelurahan/Desa
+            $table->string('zip_code')->nullable(); // Kode Pos
+            // Anda dapat menambahkan field-field lain sesuai kebutuhan aplikasi Anda
             $table->timestamps();
         });
+        
     }
 
     /**

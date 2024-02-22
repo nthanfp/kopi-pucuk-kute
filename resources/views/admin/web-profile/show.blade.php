@@ -25,7 +25,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <form action="{{ route('admin.web-profile.update', 1) }}" method="POST">
+            <form action="{{ route('admin.web-profile.update', 1) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -40,7 +40,65 @@
                     <textarea class="form-control" id="description" name="description">{{ $web_profile->description }}</textarea>
                 </div>
 
-                <!-- tambahkan bidang lainnya sesuai kebutuhan -->
+                <div class="mb-3">
+                    <label for="logo" class="form-label">Logo</label>
+                    <input type="file" class="form-control" id="logo" name="logo">
+                </div>
+
+                <div class="mb-3">
+                    <label for="favicon" class="form-label">Favicon</label>
+                    <input type="file" class="form-control" id="favicon" name="favicon">
+                </div>
+
+                <!-- Tambahkan bidang-bidang tambahan -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                        value="{{ $web_profile->email }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Telepon</label>
+                    <input type="text" class="form-control" id="phone" name="phone"
+                        value="{{ $web_profile->phone }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Alamat</label>
+                    <input type="text" class="form-control" id="address" name="address"
+                        value="{{ $web_profile->address }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="province" class="form-label">Provinsi</label>
+                    <input type="text" class="form-control" id="province" name="province"
+                        value="{{ $web_profile->province }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="city" class="form-label">Kota</label>
+                    <input type="text" class="form-control" id="city" name="city"
+                        value="{{ $web_profile->city }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="district" class="form-label">Kecamatan</label>
+                    <input type="text" class="form-control" id="district" name="district"
+                        value="{{ $web_profile->district }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="village" class="form-label">Desa/Kelurahan</label>
+                    <input type="text" class="form-control" id="village" name="village"
+                        value="{{ $web_profile->village }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="zip_code" class="form-label">Kode Pos</label>
+                    <input type="text" class="form-control" id="zip_code" name="zip_code"
+                        value="{{ $web_profile->zip_code }}">
+                </div>
+                <!-- End tambahan bidang-bidang tambahan -->
 
                 <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
             </form>

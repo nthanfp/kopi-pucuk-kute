@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WebProfile;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index']);
     }
 
     /**
@@ -23,7 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // Mengambil data profil perusahaan dengan ID 1
+        $webProfile = WebProfile::findOrFail(1);
+
+        // Mengirim data profil perusahaan ke view 'home'
+        return view('home', ['webProfile' => $webProfile]);
     }
 
     public function showHome()

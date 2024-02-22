@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['showProductList', 'showProductDetail', 'showProductData']);
+    }
+
     public function showProductList()
     {
         // Mengambil semua produk dari database

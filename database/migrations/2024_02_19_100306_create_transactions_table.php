@@ -17,10 +17,18 @@ class CreateTransactionsTable extends Migration
             $table->increments('id_transaction');
             $table->unsignedInteger('id_user');
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            $table->dateTime('transaction_date');
-            $table->float('total_price');
             $table->enum('status', ['pending', 'process', 'shipping', 'completed', 'canceled']);
             $table->enum('payment_status', ['paid', 'unpaid']);
+            $table->dateTime('transaction_date');
+            $table->float('total_price');
+            $table->float('shipping_price')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('province')->nullable();
+            $table->string('city')->nullable();
+            $table->string('district')->nullable();
+            $table->string('village')->nullable();
+            $table->string('zip_code')->nullable();
             $table->timestamps();
         });
     }

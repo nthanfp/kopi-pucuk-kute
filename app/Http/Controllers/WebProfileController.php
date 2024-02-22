@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WebProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class WebProfileController extends Controller
 {
@@ -56,25 +57,51 @@ class WebProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, WebProfile $webProfile)
+
+    public function update(Request $request)
     {
+        // Validasi data yang diterima dari formulir
         $validatedData = $request->validate([
             'title' => 'nullable|string',
             'description' => 'nullable|string',
-            'logo' => 'nullable|string',
-            'favicon' => 'nullable|string',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'address' => 'nullable|string',
+            'province' => 'nullable|string',
+            'city' => 'nullable|string',
+            'district' => 'nullable|string',
+            'village' => 'nullable|string',
+            'zip_code' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'favicon' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+            // Tambahkan validasi untuk kolom lain jika diperlukan
         ]);
-    
-        // Cari data web profile dengan id = 1
-        $webProfile = WebProfile::find(1);
-    
-        if ($webProfile) {
+
+        try {
+            // Perbarui data profil web dengan ID 1
+            $webProfile = WebProfile::findOrFail(1);
+
+            // Proses upload logo jika ada
+            if ($request->hasFile('logo')) {
+                $logoPath = $request->file('logo')->store('web_profile', 'public');
+                $validatedData['logo'] = $logoPath;
+            }
+
+            // Proses upload favicon jika ada
+            if ($request->hasFile('favicon')) {
+                $faviconPath = $request->file('favicon')->store('web_profile', 'public');
+                $validatedData['favicon'] = $faviconPath;
+            }
+
             $webProfile->update($validatedData);
-            return redirect()->back()->with('success', 'Web profile berhasil diperbarui.');
-        } else {
-            return redirect()->back()->with('error', 'Web profile tidak ditemukan.');
+            return redirect()->back()->with('success', 'Profil web berhasil diperbarui.');
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika gagal memperbarui profil web
+            return redirect()->back()->with('error', 'Gagal memperbarui profil web.');
         }
     }
+
+
 
     /**
      * Remove the specified resource from storage.

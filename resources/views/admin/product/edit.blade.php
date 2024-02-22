@@ -16,12 +16,21 @@
         </div>
     @endif
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
     @endif
-
 
     <div class="card">
         <div class="card-header bg-warning text-white">
@@ -29,10 +38,10 @@
         </div>
         <div class="card-body">
             <!-- Form untuk mengubah detail produk -->
-            <form action="{{ route('admin.products.update', $product->id_product) }}" method="POST">
+            <form action="{{ route('admin.product.update', $product->id_product) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-
                 <div class="mb-3">
                     <label for="name" class="form-label">Nama Produk</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}">
@@ -41,6 +50,11 @@
                 <div class="mb-3">
                     <label for="description" class="form-label">Deskripsi</label>
                     <textarea class="form-control" id="description" name="description">{{ $product->description }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Gambar</label>
+                    <input type="file" class="form-control" id="image" name="image">
                 </div>
 
                 <!-- Tambahkan input untuk harga atau atribut lainnya yang ingin Anda edit -->
@@ -58,28 +72,32 @@
             <div class="row">
                 <div class="col-md-3">
                     <!-- Form untuk menambah variant produk -->
-                    <form action="{{ route('admin.variants.store') }}" method="POST">
+                    <form action="{{ route('admin.variant.store') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id_product }}">
+                        <input type="hidden" name="id_product" value="{{ $product->id_product }}">
 
                         <div class="mb-3">
                             <label for="variant_name" class="form-label">Nama Variant</label>
-                            <input type="text" class="form-control" id="variant_name" name="variant_name">
+                            <input type="text" class="form-control" id="variant_name" name="variant_name"
+                                placeholder="Masukkan nama variant">
                         </div>
 
                         <div class="mb-3">
                             <label for="variant_price" class="form-label">Harga Variant</label>
-                            <input type="text" class="form-control" id="variant_price" name="variant_price">
+                            <input type="text" class="form-control" id="variant_price" name="variant_price"
+                                placeholder="Masukkan harga variant">
                         </div>
 
                         <div class="mb-3">
                             <label for="variant_stock" class="form-label">Stok</label>
-                            <input type="number" class="form-control" id="variant_stock" name="variant_stock">
+                            <input type="number" class="form-control" id="variant_stock" name="variant_stock"
+                                placeholder="Masukkan stok variant">
                         </div>
 
                         <div class="mb-3">
                             <label for="variant_weight" class="form-label">Berat</label>
-                            <input type="text" class="form-control" id="variant_weight" name="variant_weight">
+                            <input type="text" class="form-control" id="variant_weight" name="variant_weight"
+                                placeholder="Masukkan berat variant">
                         </div>
 
                         <!-- Tambahkan input untuk atribut variant lainnya jika ada -->
@@ -107,11 +125,15 @@
                                     <td>{{ $variant->stock }}</td>
                                     <td>{{ $variant->weight }}</td>
                                     <td>
-                                        <form action="{{ route('admin.variants.destroy', $variant->id_variant) }}"
+                                        <a href="{{ route('admin.variant.edit', $variant->id_variant) }}"
+                                            class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                                        <form action="{{ route('admin.variant.destroy', $variant->id_variant) }}"
                                             method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus variant ini?')"><i
+                                                    class="fas fa-trash-alt"></i> Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -122,4 +144,5 @@
             </div>
         </div>
     </div>
+
 @endsection

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductsTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->increments('id_product');
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->string('image_url')->nullable(); // Tambahkan kolom image_url yang dapat berisi NULL
+            $table->string('account_number');
+            $table->string('account_name');
+            $table->enum('status', ['on', 'off'])->default('off');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('payments');
     }
 }

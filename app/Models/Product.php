@@ -9,7 +9,7 @@ class Product extends Model
     protected $primaryKey = 'id_product';
 
     protected $fillable = [
-        'name', 'description', 'image'
+        'name', 'description', 'image_url'
     ];
 
     public function variants()
@@ -22,9 +22,14 @@ class Product extends Model
         return $this->hasManyThrough(TransactionDetail::class, ProductVariant::class, 'id_product', 'id_variant');
     }
 
-    public function getImageUrlAttribute()
+    public function getImageUrlAttribute($value)
     {
-        // Mengembalikan URL gambar placeholder sesuai kebutuhan Anda
-        return 'https://via.placeholder.com/600x400';
+        // Jika image_url tidak kosong, kembalikan image_url tersebut
+        if ($value) {
+            return asset('storage/' . $value);
+        } else {
+            // Jika image_url kosong, kembalikan URL gambar placeholder sesuai kebutuhan Anda
+            return 'https://via.placeholder.com/600x400';
+        }
     }
 }

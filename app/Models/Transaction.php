@@ -9,7 +9,7 @@ class Transaction extends Model
     protected $primaryKey = 'id_transaction';
 
     protected $fillable = [
-        'id_user', 'transaction_date', 'total_price', 'status', 'payment_status'
+        'id_user', 'transaction_date', 'total_price', 'status', 'payment_status', 'address', 'province', 'city', 'district', 'village', 'zip_code', 'phone', 'shipping_price',
     ];
 
     public function user()

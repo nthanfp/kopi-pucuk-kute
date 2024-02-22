@@ -15,7 +15,7 @@
                     <img src="{{ $product->image_url }}" class="card-img-top img-fluid" alt="{{ $product->name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text">{{ $product->description }}</p>
+                        {{-- <p class="card-text">{{ $product->description }}</p> --}}
                         <p class="card-text"><strong class="text-warning">Harga: Rp
                                 {{ number_format($product->min_price, 0, ',', '.') }}</strong></p>
                         <a href="{{ route('product.show', ['id' => $product->id_product]) }}" class="btn btn-warning">
