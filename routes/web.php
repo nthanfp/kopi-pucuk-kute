@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ManageProductController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\ManageVariantController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -105,4 +106,10 @@ Route::prefix('admin')->group(function () {
         Route::put('/{id}', [TransactionController::class, 'update'])->name('admin.transactions.update');
         Route::delete('/{id}', [TransactionController::class, 'destroy'])->name('admin.transactions.destroy');
     });
+    Route::prefix('reports')->group(function () {
+        Route::get('/', [ReportController::class, 'index'])->name('admin.reports.index');
+        Route::get('/sales', [ReportController::class, 'salesReport'])->name('admin.reports.sales');
+        Route::get('/inventory', [ReportController::class, 'inventoryReport'])->name('admin.reports.inventory');
+        Route::get('/customer', [ReportController::class, 'customerReport'])->name('admin.reports.customer');
+    });    
 });

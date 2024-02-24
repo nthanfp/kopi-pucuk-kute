@@ -14,6 +14,20 @@
 
     <!-- Load Vite assets -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css', 'resources/css/simplex-bootstrap.min.css'])
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+    </style>
 </head>
 
 <body style="background-color: #f8f7f7; font-family: 'Inter'">
@@ -61,7 +75,7 @@
                         <li class="nav-item">
                             <a class="nav-link {{ Request::is('account/transaction') ? 'active' : '' }}"
                                 href="{{ route('account.profile.transaction') }}">
-                                <i class="fas fa-shopping-bag"></i> Transaksi 
+                                <i class="fas fa-shopping-bag"></i> Transaksi
                             </a>
                         </li>
                         <li class="nav-item dropdown">
@@ -90,13 +104,15 @@
                                     Admin Menu <i class="fas fa-cogs"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                                    <a class="dropdown-item" href="{{ route('admin.transactions.index') }}">Kelola Transaksi</a>
+                                    <a class="dropdown-item" href="{{ route('admin.transactions.index') }}">Kelola
+                                        Transaksi</a>
                                     <a class="dropdown-item" href="{{ route('admin.product.index') }}">Kelola Produk</a>
                                     <a class="dropdown-item" href="{{ route('admin.user.index') }}">Kelola Pengguna</a>
                                     <a class="dropdown-item" href="{{ route('admin.payment.index') }}">Kelola Metode
                                         Pembayaran</a>
                                     <a class="dropdown-item" href="{{ route('admin.web-profile') }}">Kelola Profil
                                         Perusahaan</a>
+                                    <a class="dropdown-item" href="{{ route('admin.reports.index') }}">Lihat Laporan</a>
                                     {{-- Tambahkan item dropdown lainnya sesuai kebutuhan --}}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Pengaturan</a>
@@ -109,7 +125,6 @@
             </div>
         </div>
     </nav>
-
 
     <div class="container mt-4 mb-4">
         @yield('content')

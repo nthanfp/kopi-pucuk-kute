@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -39,7 +40,8 @@ class TransactionController extends Controller
     public function show($id)
     {
         $transaction = Transaction::findOrFail($id);
-        return view('admin.transactions.show', compact('transaction'));
+        $user = User::findOrFail($transaction->id_user); // Retrieve the user associated with the transaction
+        return view('admin.transactions.show', compact('transaction', 'user'));
     }
 
     /**
